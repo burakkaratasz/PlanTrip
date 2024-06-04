@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "419443861041",
+    "project_id": "plantrip-7af38",
+    "storage_bucket": "plantrip-7af38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419443861041:android:355ed04bc7c181f0131710",
+        "android_client_info": {
+          "package_name": "com.example.plantrip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMLb5CZ2rPNxF8WLKgmiHIdYSWghlx5Ig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
