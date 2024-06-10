@@ -1,9 +1,12 @@
 package com.example.plantrip;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,36 +18,83 @@ import java.util.List;
 
 public class ViewTripsActivity extends AppCompatActivity {
 
-    private ListView tripsListView;
+    private LinearLayout tripsContainer;
     private DatabaseReference databaseTrips;
-    private List<String> tripsList;
-    private ArrayAdapter<String> adapter;
+    private DatabaseReference databaseLuggage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trips);
 
-        tripsListView = findViewById(R.id.tripsListView);
+        tripsContainer = findViewById(R.id.tripsContainer);
         databaseTrips = FirebaseDatabase.getInstance().getReference("trips");
-        tripsList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tripsList);
-        tripsListView.setAdapter(adapter);
+        databaseLuggage = FirebaseDatabase.getInstance().getReference("luggage");
 
         databaseTrips.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                tripsList.clear();
+                tripsContainer.removeAllViews();
                 for (DataSnapshot tripSnapshot : dataSnapshot.getChildren()) {
                     Trip trip = tripSnapshot.getValue(Trip.class);
-                    tripsList.add(trip.tripName);
+                    if (trip != null) {
+                        displayTrip(trip);
+                    }
                 }
-                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    private void displayTrip(Trip trip) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View tripView = inflater.inflate(R.layout.trip_card, tripsContainer, false);
+
+        TextView tripNameTextView = tripView.findViewById(R.id.tripNameTextView);
+        TextView tripDetailsTextView = tripView.findViewById(R.id.tripDetailsTextView);
+        TextView luggageHeaderTextView = tripView.findViewById(R.id.luggageHeaderTextView);
+        TextView luggageDetailsTextView = tripView.findViewById(R.id.luggageDetailsTextView);
+
+        tripNameTextView.setText(trip.tripName);
+
+        StringBuilder details = new StringBuilder();
+        details.append("Gidilecek Yer: ").append(trip.destination).append("\n");
+        details.append("Başlangıç Tarihi: ").append(trip.startDate).append("\n");
+        details.append("Bitiş Tarihi: ").append(trip.endDate).append("\n");
+        details.append("Seyahat Türü: ").append(trip.tripType).append("\n");
+        if (trip.participants != null) {
+            details.append("Katılacak Kişiler: ").append(String.join(", ", trip.participants)).append("\n");
+        } else {
+            details.append("Katılacak Kişiler: Yok\n");
+        }
+        details.append("Ulaşım Aracı: ").append(trip.transportation);
+        tripDetailsTextView.setText(details.toString());
+
+        databaseLuggage.child(trip.tripId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> luggageItems = new ArrayList<>();
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
+                    LuggageItem item = itemSnapshot.getValue(LuggageItem.class);
+                    if (item != null) {
+                        luggageItems.add(item.itemName);
+                    }
+                }
+                if (!luggageItems.isEmpty()) {
+                    luggageHeaderTextView.setVisibility(View.VISIBLE);
+                    luggageDetailsTextView.setVisibility(View.VISIBLE);
+                    luggageDetailsTextView.setText(String.join(", ", luggageItems));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        tripsContainer.addView(tripView);
     }
 }
