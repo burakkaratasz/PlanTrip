@@ -95,6 +95,8 @@ public class CreateTripActivity extends AppCompatActivity {
             return;
         }
 
+
+        //veritabanına post etme işlemi
         String tripId = databaseTrips.push().getKey();
         List<String> participants = new ArrayList<>();
         for (String participant : participantsStr.split(",")) {

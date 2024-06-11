@@ -73,6 +73,8 @@ public class ViewTripsActivity extends AppCompatActivity {
         details.append("Ulaşım Aracı: ").append(trip.transportation);
         tripDetailsTextView.setText(details.toString());
 
+
+        //veritabanından görüntüleme işlemi
         databaseLuggage.child(trip.tripId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

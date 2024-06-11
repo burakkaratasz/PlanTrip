@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="332dp"
         android:layout_marginEnd="75dp"
         android:hint="Eşya İsmi"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,19 +30,47 @@
         android:backgroundTint="#FFA000"
         android:text="Ekle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finishButton" />
+        app:layout_constraintTop_toBottomOf="@+id/itemNameEditText" />
 
     <Button
         android:id="@+id/finishButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="150dp"
         android:backgroundTint="#FFA000"
         android:text="Tamamla"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/addItemButton" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="208dp"
+        android:layout_marginEnd="50dp"
+        android:text="Lütfen Unutmak İstemediğiniz Eşyaları Ekleyiniz..."
+        android:textColor="#FFA000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="157dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img" />
 </androidx.constraintlayout.widget.ConstraintLayout>
